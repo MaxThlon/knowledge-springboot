@@ -1,0 +1,10 @@
+{
+  "realm": "Thlon",
+  "bearer-only": true,
+  "auth-server-url": "https://macmax:8443/auth",
+  "ssl-required": "external",
+  "resource": "ThlonSpring",
+  "verify-token-audience": true,
+  "use-resource-role-mappings": true,
+  "confidential-port": 0
+}

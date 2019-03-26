@@ -1,0 +1,66 @@
+package com.thlon.knowledge.kafka
+
+import java.security.Principal;
+
+import org.slf4j.LoggerFactory
+import com.thlon.knowledge.kafka.GroupProducerConfiguration.Companion.TOPIC
+import org.springframework.kafka.core.KafkaTemplate
+import org.springframework.stereotype.Controller
+import org.springframework.messaging.handler.annotation.MessageMapping
+import org.springframework.messaging.simp.annotation.SendToUser;
+import org.springframework.messaging.handler.annotation.Payload;
+import com.thlon.knowledge.ApplicationThlonKnowledge
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.module.kotlin.*
+import com.thlon.knowledge.KnwlGroup
+
+data class GroupsCreateCommand(
+  var parentId: Int,
+  var name: String)
+
+@Controller
+class GroupProducerController (val kafkaTemplate: KafkaTemplate<String, String>) {
+    private val log = LoggerFactory.getLogger(ApplicationThlonKnowledge::class.java)
+
+    // Groups
+    @MessageMapping("/groups")
+    @SendToUser("/queue/knwlgroups.updates")
+    fun createGroup(@Payload message: String, principal: Principal): String {
+
+      val mapper = jacksonObjectMapper()
+      val croupsCreateCommand = mapper.readValue<GroupsCreateCommand>(message)
+
+      log.info("requested: croupsCreateCommand.parentId: ${croupsCreateCommand.parentId} croupsCreateCommand.name: ${croupsCreateCommand.name}")
+
+      //commandGateway.send(CreateCustomerCommand(PersonName(request.firstName, request.lastName), Money(request.orderLimit), auditEntry), LoggingCallback.INSTANCE)
+      kafkaTemplate.send(TOPIC,"GET /goups/id OK")
+      //ResponseEntity.ok(true)
+
+      data class KnwlGroup(var id: Int,
+                           var name: String)
+
+      val groupList: MutableList<KnwlGroup> = mutableListOf(KnwlGroup(1, "group1"), KnwlGroup(2, "group2"), KnwlGroup(3, "group3"))
+
+      return mapper.writeValueAsString(groupList)
+    }
+
+
+    /*@RequestMapping("/groups")
+    fun allGroups(): Iterable<GroupEntity> = groupRepository.findAll()
+
+    @RequestMapping("/goups/{id}")
+    fun getGroup(@PathVariable Id: String): ResponseEntity<String> {
+        return if (person.isPresent) {
+            kafkaTemplate.send(TOPIC,"GET /goups/id OK > $Id")
+            ResponseEntity.ok(person.get())
+        } else {
+            kafkaTemplate.send(TOPIC, "GET /groups/id BadRequest > $id")
+            ResponseEntity.badRequest().body(null)
+        }
+    }*/
+}
+
+/**
+ * A request for creating a Group
+ */
+//data class CreateGroupDTO(val Name: String)

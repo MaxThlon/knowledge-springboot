@@ -1,0 +1,18 @@
+package com.thlon.knowledge.kafka
+
+import com.thlon.knowledge.kafka.GroupConsumerConfig.Companion.TOPIC
+import org.springframework.messaging.simp.SimpMessageSendingOperations
+import org.springframework.kafka.annotation.KafkaListener
+
+import com.thlon.knowledge.KnwlGroup
+
+class GroupConsumer { //(private val messagingTemplate: SimpMessageSendingOperations) {
+    @KafkaListener(topics = [TOPIC])
+    fun receive(payload: String) {
+        //LOGGER.info("Received payload='$payload'")
+        /*val groupList: MutableList<GroupEntity> = mutableListOf(GroupEntity("1", "group1"), GroupEntity("2", "group2"), GroupEntity("3", "group3"))
+
+        messagingTemplate.convertAndSend("/topic/knwlgroups.updates",
+                                         groupList)*/
+    }
+}
