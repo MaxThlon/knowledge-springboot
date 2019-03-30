@@ -21,7 +21,7 @@ class WebSockerController (private val knwlGroupService: KnwlGroupService) {
 
   // Groups
   @MessageMapping("/groups")
-  @SendToUser("/queue/knwlgroups.updates")
+  @SendToUser("/queue/thlongroups.updates")
   //fun createGroup(@Payload message: String, principal: Principal): Page<KnwlGroup> {
   fun createGroup(principal: Principal): Page<KnwlGroup> {
 
@@ -47,7 +47,6 @@ class WebSockerController (private val knwlGroupService: KnwlGroupService) {
     //val groupList: MutableList<KnwlGroup> = mutableListOf(KnwlGroup(1, "group1"), KnwlGroup(2, "group2"), KnwlGroup(3, "group3"))
 
     //val response: String = jacksonMapper.writeValueAsString(groupList)
-    //log.info(response)
     //return jacksonMapper.writeValueAsString(knwlGroupService.getAll(PageRequest.of(0,100)))
     return knwlGroupService.getAll(PageRequest.of(0,100))
   }
